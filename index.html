@@ -10,16 +10,17 @@
   <body>
     <div id='react-container'></div>
     <script type="text/babel">
-      var MyComponent = React.createClass({
+      class MyComponent = React.createClass({
         render() {
           return <div>
-            <h1>Hello, world</h1>
+            <h1>{this.props.text}</h1>
             <p>This is my first React component!</p>
           </div>
         }
       })
-      ReactDOM.render(<MyComponent />,
-      document.getElementById('react-container'))
+
+      ReactDOM.render(<MyComponent text="Hello World"/>,
+        document.getElementById('react-container'))
     </script>
 
   </body>
