@@ -14,6 +14,18 @@
         getInitialState() {
           return {editing: false}
         },
+
+        componentWillMount() {
+          this.style = {
+            right: this.randomBetween(0, window.innerWidth - 150, 'px'),
+            top: this.randomBetween(0, window.innerHeight - 150, 'px')
+          }
+        },
+
+        randomBetween(x, y, s) {
+          return (x + Math.ceil(Math.random() * (y-x))) + s
+        },
+
         edit() {
           this.setState({editing: true})
         },
@@ -26,7 +38,8 @@
         },
         renderForm(){
           return (
-            <div className="note">
+            <div className="note"
+                style={this.style}>
             <textarea ref="newText"></textarea>
             <button onClick={this.save}>SAVE</button>
             </div>
@@ -34,7 +47,8 @@
         },
         renderDisplay() {
           return (
-            <div className="note">
+            <div className="note"
+                style={this.style}>
               <p>{this.props.children}</p>
               <span>
                 <button onClick={this.edit}>EDIT</button>
@@ -62,14 +76,26 @@
         },
         getInitialState() {
           return {
-            notes: [
-              {id: 0, note: 'Call bob'},
-              {id: 1, note: 'Email sarah'},
-              {id: 2, note: 'Eat lunch'},
-              {id: 3, note: 'finish proposal'}
-            ]
+            notes: []
           }
         },
+
+        nextId() {
+          this.uniqueId = this.uniqueId || 0
+          return this.uniqueId++
+        },
+
+        add(text) {
+          var notes = [
+            ...this.state.notes,
+            {
+              id: this.nextId(),
+              note: text
+            }
+          ]
+          this.setState({notes})
+        },
+
         update(newText, id) {
           var notes = this.state.notes.map(
             note => (note.id !== id) ?
@@ -99,6 +125,7 @@
         render() {
           return (<div className='board'>
                 {this.state.notes.map(this.eachNote)}
+                <button onClick={() => this.add('Add note here')}>+</button>
                   </div>)
         }
       })
