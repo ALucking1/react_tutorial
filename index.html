@@ -22,6 +22,13 @@
           }
         },
 
+        componentDidUpdate() {
+          if (this.state.editing) {
+            this.refs.newText.focus()
+            this.refs.newText.select()
+            }
+          },
+
         randomBetween(x, y, s) {
           return (x + Math.ceil(Math.random() * (y-x))) + s
         },
@@ -41,7 +48,7 @@
             <div className="note"
                 style={this.style}>
             <textarea ref="newText"
-                  
+
               ></textarea>
             <button onClick={this.save}>SAVE</button>
             </div>
